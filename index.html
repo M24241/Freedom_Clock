@@ -1,0 +1,151 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find Your Freedom Clock</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+        header {
+            background-color: #6200ea;
+            color: white;
+            padding: 20px;
+            width: 100%;
+            text-align: center;
+        }
+        .container {
+            margin: 20px;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            width: 100%;
+        }
+        .question {
+            margin-bottom: 15px;
+        }
+        .question label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .question input, .question select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        #result {
+            margin-top: 20px;
+            font-size: 1.2em;
+            text-align: center;
+            color: #6200ea;
+        }
+        .button {
+            display: block;
+            background-color: #6200ea;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 20px auto;
+            font-size: 1em;
+        }
+        .button:hover {
+            background-color: #4500b5;
+        }
+        #clock {
+            margin: 20px auto;
+            width: 150px;
+            height: 150px;
+            border: 10px solid #6200ea;
+            border-radius: 50%;
+            position: relative;
+        }
+        #clock-face {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #6200ea;
+        }
+        .hand {
+            width: 3px;
+            height: 60px;
+            background-color: #6200ea;
+            position: absolute;
+            top: 20px;
+            left: calc(50% - 1.5px);
+            transform-origin: bottom;
+            transform: rotate(0deg);
+            transition: transform 1s ease;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Find Your Freedom Clock</h1>
+        <p>Discover how much time you can save with outsourcing!</p>
+    </header>
+    <div class="container">
+        <div class="question">
+            <label for="clients">How many clients do you manage annually?</label>
+            <input type="number" id="clients" min="0" placeholder="Enter number of clients">
+        </div>
+        <div class="question">
+            <label for="tasks">How many hours per week do you spend on client tasks?</label>
+            <input type="number" id="tasks" min="0" placeholder="Enter hours per week">
+        </div>
+        <div class="question">
+            <label for="inhouse">What percentage of tasks do you currently handle in-house?</label>
+            <input type="number" id="inhouse" min="0" max="100" placeholder="Enter percentage (0-100)">
+        </div>
+        <button class="button" onclick="calculateSavings()">Calculate Your Savings</button>
+        <div id="result"></div>
+        <div id="clock">
+            <div id="clock-face">0 hrs</div>
+            <div class="hand" id="hour-hand"></div>
+        </div>
+    </div>
+
+    <script>
+        function calculateSavings() {
+            const clients = parseInt(document.getElementById("clients").value) || 0;
+            const tasks = parseInt(document.getElementById("tasks").value) || 0;
+            const inhouse = parseInt(document.getElementById("inhouse").value) || 0;
+
+            const annualHours = tasks * 52; // Total hours per year
+            const inhouseWork = (inhouse / 100) * annualHours; // Hours currently managed in-house
+            const potentialSavings = inhouseWork * 0.3; // Assume 30% savings with outsourcing
+
+            const savedHours = Math.round(potentialSavings);
+            const result = `By outsourcing, you can save approximately <strong>${savedHours} hours</strong> annually!`;
+            document.getElementById("result").innerHTML = result;
+
+            // Update the clock
+            const maxRotation = 360; // Maximum rotation for 12 hours
+            const rotation = (savedHours / 720) * maxRotation; // Scale to max hours
+            document.getElementById("hour-hand").style.transform = `rotate(${rotation}deg)`;
+            document.getElementById("clock-face").innerText = `${savedHours} hrs`;
+        }
+    </script>
+</body>
+</html>
